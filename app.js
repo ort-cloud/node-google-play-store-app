@@ -2,7 +2,6 @@ const express = require("express");
 const morgan = require("morgan");
 const store = require("./playstore.js");
 
-
 const app = express();
 app.use(morgan("dev"));
 
@@ -11,12 +10,12 @@ app.listen(8000, () => {
 });
 
 app.get("/app", (req, res) => {
-  const genres = raq.query genres;
+  const genres = req.query.genres;
   const sort = req.query.sort;
   let results = store;
 
-  if (genres !== undefined){
-    if( 
+  if (genres !== undefined) {
+    if (
       genres.toLowerCase() !== "action" &&
       genres.toLowerCase() !== "puzzle" &&
       genres.toLowerCase() !== "strategy" &&
@@ -24,7 +23,9 @@ app.get("/app", (req, res) => {
       genres.toLowerCase() !== "arcade" &&
       genres.toLowerCase() !== "card"
     ) {
-      return res.status(400).send("can only filter Action,Puzzle,Strategy,Casual,Arcade, or Card")
+      return res
+        .status(400)
+        .send("can only filter Action,Puzzle,Strategy,Casual,Arcade, or Card");
     }
 
     results = store.filter(app => {
@@ -33,12 +34,6 @@ app.get("/app", (req, res) => {
       );
     });
   }
-
-  results = store.filter(app => {
-    return app.Genres.includes(
-      genres.charAt(0).toUpperCase() + genres.slice(1)
-    );
-  });
 
   if (sort !== undefined) {
     if (sort.toLowerCase() !== "rating" && sort.toLowerCase() !== "app") {
