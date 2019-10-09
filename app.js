@@ -5,10 +5,6 @@ const store = require("./playstore.js");
 const app = express();
 app.use(morgan("dev"));
 
-app.listen(8000, () => {
-  console.log("Express server is listening on port 8000!");
-});
-
 app.get("/app", (req, res) => {
   const genres = req.query.genres;
   const sort = req.query.sort;
@@ -57,3 +53,5 @@ app.get("/app", (req, res) => {
 
   res.json(results);
 });
+
+module.exports = app;
